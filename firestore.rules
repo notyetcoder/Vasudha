@@ -1,0 +1,26 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to check for admin/editor role via custom claims
+    function hasAdminAccess() {
+      return request.auth != null &&
+             request.auth.token.role in ['super-admin', 'editor'];
+    }
+
+    // Rules for the 'users' collection
+    match /users/{userId} {
+      // Admins can read/write everything.
+      // Anyone else can only read documents where the status is 'approved'.
+      allow read: if hasAdminAccess() || resource.data.status == 'approved';
+      allow write: if hasAdminAccess();
+    }
+
+    // Block all client access to the 'admins' collection.
+    // All admin user management should be handled by server-side actions.
+    match /admins/{adminId} {
+      allow read, write: if false;
+    }
+  }
+}
