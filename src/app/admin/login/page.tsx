@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase-client';
@@ -15,7 +15,8 @@ import Logo from '@/components/Logo';
 import { useAdmin } from '@/context/AdminContext';
 import Link from 'next/link';
 
-export default function AdminLoginPage() {
+// This component uses useSearchParams, so it must be wrapped in Suspense
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/admin';
@@ -119,5 +120,16 @@ export default function AdminLoginPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+// Set page to be dynamic to allow useSearchParams
+export const dynamic = 'force-dynamic';
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-muted/40 p-4"><Loader2 className="h-10 w-10 animate-spin text-primary" /></div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
