@@ -1,0 +1,40 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // Helper function to check if the user is an admin
+    function isAdmin() {
+      return exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    
+    // Helper function to check if the user is a super-admin
+    function isSuperAdmin() {
+      let adminRole = get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role;
+      return request.auth != null && adminRole == 'super-admin';
+    }
+
+    // Rules for the 'users' collection
+    match /users/{userId} {
+      // ANYONE can read a user profile IF its status is 'approved'
+      allow get: if resource.data.status == 'approved';
+      
+      // LOGGED-IN ADMINS can perform any action
+      allow read, write, delete: if isAdmin();
+    }
+    
+    match /users/{userId=**} {
+        // Logged-in admins can query the collection
+      allow list: if isAdmin();
+    }
+
+    // Rules for the 'admins' collection
+    match /admins/{adminId} {
+      // LOGGED-IN ADMINS can read admin data
+      allow get, list: if isAdmin();
+      
+      // ONLY SUPER-ADMINS can create, update, or delete admin records
+      allow write: if isSuperAdmin();
+    }
+  }
+}

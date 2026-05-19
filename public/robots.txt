@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: ://your-family-tree.web.app/sitemahttpsp.xml

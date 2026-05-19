@@ -1,0 +1,54 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:hsl(122, 47%, 31%);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:hsl(122, 47%, 40%);stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Globe background -->
+  <circle cx="50" cy="50" r="45" fill="url(#grad1)" />
+
+  <!-- Meridians and Parallels -->
+  <ellipse cx="50" cy="50" rx="45" ry="45" fill="none" stroke="hsl(122, 47%, 50%)" stroke-width="0.5" stroke-opacity="0.5"/>
+  <ellipse cx="50" cy="50" rx="35" ry="45" fill="none" stroke="hsl(122, 47%, 50%)" stroke-width="0.5" stroke-opacity="0.5"/>
+  <ellipse cx="50" cy="50" rx="20" ry="45" fill="none" stroke="hsl(122, 47%, 50%)" stroke-width="0.5" stroke-opacity="0.5"/>
+  
+  <path d="M 5,50 A 45,20 0 0 1 95,50" fill="none" stroke="hsl(122, 47%, 50%)" stroke-width="0.5" stroke-opacity="0.5"/>
+  <path d="M 5,50 A 45,35 0 0 1 95,50" fill="none" stroke="hsl(122, 47%, 50%)" stroke-width="0.5" stroke-opacity="0.5"/>
+  <path d="M 5,50 A 45,45 0 0 1 95,50" fill="none" stroke="hsl(122, 47%, 50%)" stroke-width="0.5" stroke-opacity="0.5"/>
+
+  <!-- Stylized tree/network icon -->
+  <g stroke="white" stroke-width="2.5" fill="none" filter="url(#glow)" stroke-linecap="round">
+    <!-- Trunk -->
+    <path d="M 50 80 V 60" />
+
+    <!-- Main branches -->
+    <path d="M 50 60 L 35 45" />
+    <path d="M 50 60 L 65 45" />
+
+    <!-- Sub-branches -->
+    <path d="M 35 45 L 25 30" />
+    <path d="M 35 45 L 45 30" />
+    <path d="M 65 45 L 55 30" />
+    <path d="M 65 45 L 75 30" />
+  </g>
+
+  <!-- Nodes/Leaves -->
+  <g fill="white" filter="url(#glow)">
+    <circle cx="50" cy="80" r="4"/>
+    <circle cx="35" cy="45" r="4"/>
+    <circle cx="65" cy="45" r="4"/>
+    <circle cx="25" cy="30" r="4"/>
+    <circle cx="45" cy="30" r="4"/>
+    <circle cx="55" cy="30" r="4"/>
+    <circle cx="75" cy="30" r="4"/>
+  </g>
+</svg>
