@@ -3,8 +3,6 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-const PLACEHOLDER_URL = 'https://placehold.co/150x150.png';
-
 function isPlaceholder(url?: string | null): boolean {
   if (!url) return true;
   if (url.includes('placehold.co')) return true;

@@ -118,16 +118,17 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Minimum touch targets — 44px per Apple HIG */
-  button, a, [role="button"] {
-    min-height: 44px;
-    min-width: 44px;
-  }
-
-  /* Exception: inline text links */
-  p a, p button {
-    min-height: unset;
-    min-width: unset;
+  /* Minimum touch targets — 44px per Apple HIG.
+     Scoped to mobile only so desktop admin table icon buttons are not affected. */
+  @media (max-width: 767px) {
+    button, a, [role="button"] {
+      min-height: 44px;
+    }
+    /* Exception: inline text links and small utility links */
+    p a, p button, .no-min-touch, table button, table a {
+      min-height: unset;
+      min-width: unset;
+    }
   }
 }
 
@@ -145,7 +146,7 @@
     padding-right: env(safe-area-inset-right);
   }
 
-  /* Extra small breakpoint for very small phones (320px) */
+  /* xs breakpoint: 475px+ */
   .xs\:block { display: block; }
   @media (min-width: 475px) {
     .xs\:block { display: block; }
