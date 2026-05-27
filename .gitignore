@@ -28,3 +28,6 @@ dist/
 
 # system files
 Thumbs.db
+
+# Old codebase backup — not part of active build
+Kutumb-main/

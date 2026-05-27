@@ -1,9 +1,11 @@
 /**
  * env.ts
- * 
- * Validates required environment variables at startup.
- * If any are missing, throws a clear error with instructions
- * instead of cryptic "Cannot read property of undefined" errors.
+ *
+ * Validates required environment variables.
+ * Import this file anywhere to trigger validation,
+ * or it self-validates when Next.js loads server modules.
+ *
+ * Usage: import '@/lib/env'; // at top of data.ts or layout.tsx
  */
 
 const required = [
@@ -11,24 +13,20 @@ const required = [
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
 ] as const;
 
-const serverOnly = [
-  'SUPABASE_SERVICE_ROLE_KEY',
-] as const;
-
-// Validate public env vars (safe to check on client too)
-for (const key of required) {
-  if (!process.env[key]) {
-    throw new Error(
-      `Missing required environment variable: ${key}\n` +
-      `Create a .env.local file with this variable set.\n` +
-      `See .env.example for reference.`
-    );
+if (typeof window === 'undefined') {
+  // Server-side only validation
+  for (const key of required) {
+    if (!process.env[key]) {
+      throw new Error(
+        `[Vasudha] Missing required environment variable: ${key}\n` +
+        `Create a .env.local file. See .env.example for reference.`
+      );
+    }
   }
 }
 
 export const env = {
-  SUPABASE_URL:      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  // Server-only — undefined on client (intentional)
-  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
+  SUPABASE_URL:             process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  SUPABASE_ANON_KEY:        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY, // server-only
 } as const;

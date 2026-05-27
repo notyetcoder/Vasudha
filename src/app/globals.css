@@ -146,14 +146,7 @@
     padding-right: env(safe-area-inset-right);
   }
 
-  /* xs breakpoint: 475px+ */
-  .xs\:block { display: block; }
-  @media (min-width: 475px) {
-    .xs\:block { display: block; }
-    .xs\:hidden { display: none; }
-    .xs\:flex { display: flex; }
-    .xs\:inline { display: inline; }
-  }
+  /* xs breakpoint handled by tailwind.config.ts */
 
   /* Prevent horizontal overflow globally */
   .overflow-x-clip {
